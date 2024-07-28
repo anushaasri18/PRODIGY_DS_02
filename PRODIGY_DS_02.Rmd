@@ -1,0 +1,56 @@
+---
+title: "PRODIGY_DS_02"
+author: "Anushaa_2341490"
+date: "2024-07-28"
+output: word_document
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(readxl)
+library(corrplot)
+```
+
+```{r}
+# Load the cleaned Sample Superstore dataset
+library(readxl)
+superstore <- read_excel("C:/Users/anush/Downloads/Sample - Superstore_PRODIGY.xls")
+View(superstore)
+```
+
+# Visualizations
+
+```{r}
+# Sales by Category
+ggplot(superstore, aes(x = Category, y = Sales, fill = Category)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Sales by Category", x = "Category", y = "Sales") +
+  theme_minimal()
+```
+```{r}
+# Profit by Region
+ggplot(superstore, aes(x = Region, y = Profit, fill = Region)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Profit by Region", x = "Region", y = "Profit") +
+  theme_minimal()
+```
+```{r}
+# Sales and Profit Distribution by Segment
+ggplot(superstore, aes(x = Segment, y = Sales, fill = Segment)) +
+  geom_boxplot() +
+  labs(title = "Sales Distribution by Segment", x = "Segment", y = "Sales") +
+  theme_minimal()
+```
+```{r}
+ggplot(superstore, aes(x = Segment, y = Profit, fill = Segment)) +
+  geom_boxplot() +
+  labs(title = "Profit Distribution by Segment", x = "Segment", y = "Profit") +
+  theme_minimal()
+```
+```{r}
+# Correlation Matrix
+numeric_cols <- superstore %>% select(Sales, Profit, Quantity, Discount)
+corr_matrix <- cor(numeric_cols, use = "complete.obs")
+corrplot(corr_matrix, method = "circle", type = "upper", tl.col = "black", tl.srt = 45, col = colorRampPalette(c("red", "white", "blue"))(200))
+```
